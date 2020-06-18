@@ -1,35 +1,42 @@
 package com.example.travel;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.tabs.TabLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter adapter;
-
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.commonmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        tabLayout = (TabLayout)findViewById(R.id.tablayout_id);
-        viewPager = (ViewPager)findViewById(R.id.viewpager_id);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        //Fragments Added Here
-        adapter.AddFragment(new FragmentBucketlist(),getString(R.string.BucketList));
-        adapter.AddFragment(new FragmentExplore(),getString(R.string.Explore));
-        adapter.AddFragment(new FragmentAccomplished(),getString(R.string.Accomplished));
-
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.wishlist:
+                startActivity(new Intent(this, WishlistActivity.class));
+                return true;
+            case R.id.contactus:
+                context = getBaseContext();
+                AlertDialog.Builder builder_ = new AlertDialog.Builder(this);
+                builder_.setTitle("Contact Us");
+                builder_.setMessage("demo");
+                builder_.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
